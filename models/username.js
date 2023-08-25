@@ -25,7 +25,7 @@ const jwt = require("jsonwebtoken")
     }
     catch{
          res.send("error  "+error);
-         console.log("error "+error)
+         console.log("error "+error);
     }
   }
  
