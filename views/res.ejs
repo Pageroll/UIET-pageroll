@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+   <div>
+       <label for="">Name</label>
+        <input type="text" id="username" name="username"/>
+        <br>
+        <label for="">Password</label>
+        <input type="password" id="password">
+        <button id="submit" onclick="return login()">Submit</button>
+    </div>
+    <div id="response"></div>
+    <script>
+     function login() {
+        // Form fields, see IDs above
+        const params = {
+            username: document.querySelector('#username').value,
+            password: document.querySelector('#password').value
+        }
+
+        const http = new XMLHttpRequest()
+        http.open('POST', '/register')
+        http.setRequestHeader('Content-type', 'application/json')
+        http.send(JSON.stringify(params)) // Make sure to stringify
+        http.onload = function() {
+            // Do whatever with response
+            document.getElementById("response").innerHTML ="reached"
+        }
+    
+    }
+
+    </script>
+</body>
+</html>
