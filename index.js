@@ -69,6 +69,7 @@ app.get('/', function(req, res) {
  })
 
  app.post('/register',async(req,res)=>{
+   try{ 
     let data= new UsernameRegister({ 
         name : req.body.username,
         password : req.body.password
@@ -80,13 +81,11 @@ app.get('/', function(req, res) {
    res.cookie("jwt",token);
  //  console.log(cookie)
    const register = await data.save()
-   
-    .then((x)=>{
         res.status(200).json(register);
-    })
-    .catch((e)=>{
+}
+    catch(e){ 
         console.log(e);
-    })
+    }
 })
 app.listen(400,()=>{
     console.log("Port Working") ;
