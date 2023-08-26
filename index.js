@@ -57,7 +57,9 @@ app.get('/', function(req, res) {
         const name = req.body.name;
         const password = req.body.password ;
         const username = await UsernameRegister.findOne({name:name})
-        const isMatch = bcrypt.compare(password,username.password)
+        const isMatch = await bcrypt.compare(password,username.password)
+        const token = await username.generateAuthToken() ; 
+   console.log("token is " + token) ;
         if(isMatch){
             res.json({ mesaage: 'LOgin Successfull' });
         }
@@ -73,7 +75,12 @@ app.get('/', function(req, res) {
     
     })
     console.log(data) ;
-   const register = data.save()
+    const token = await data.generateAuthToken() ; 
+   console.log("token is " + token) ;
+   res.cookie("jwt",token);
+ //  console.log(cookie)
+   const register = await data.save()
+   
     .then((x)=>{
         res.status(200).json(register);
     })

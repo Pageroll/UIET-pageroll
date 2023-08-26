@@ -18,13 +18,14 @@ const jwt = require("jsonwebtoken")
  })
   usernnameSchema.methods.generateAuthToken = async function(){
     try{
-        const token = jwt.sign({id:this._id},"mynameisHarshpeet")
-        this.tokens  = this.tokens.concat({token:thapa})
-        console.log(token)
+        const token = jwt.sign({id:this._id.toString()},"mynameisHarshpeet")
+        this.tokens  = this.tokens.concat({token:token})
+        console.log(token) 
+        await this.save() ;
         return token ;
     }
-    catch{
-         res.send("error  "+error);
+    catch(error){
+      // res.send("error  "+error);
          console.log("error "+error);
     }
   }
