@@ -5,15 +5,18 @@ let app = express() ;
 const ejs = require("ejs") ;
 let methodoverride = require("method-override")
 const bcrypt = require("bcrypt")
+const cookieParser = require("cookie-parser")
 require("./db/conn.js")
 app.use(express.json());
 const static_path = path.join(__dirname,"/public") 
 app.use(express.urlencoded({extended:false}))
 app.use(express.static(static_path))
+app.use(cookieParser()) ; 
 //app.set("view engine","ejs")
 app.use(methodoverride('_method'))
 const mongoUrl1 = 'mongodb://127.0.0.1:27017'; // Replace with your first MongoDB connection URL
 require("./db/conn.js")
+const auth = require("./middleware/auth.js")
 //const mongoUrl2 = 'mongodb://localhost:27017/db2'; // Replace with your second MongoDB connection URL
 const UsernameRegister = require("./models/username.js")
 
@@ -37,20 +40,12 @@ app.get('/', function(req, res) {
       })
     
   });
-  app.get('/', function(req, res) {
-    UsernameRegister.find({})
-    .then((a)=>{
-        res.json(a)
-        console.log(a) ;
-       
-    })
-    .catch((e)=>{
-       console.log(e) ;
-     })
-   
- });
+
  app.get('/register',(req,res)=>{
     res.render('res.ejs')
+ })
+ app.get('/secret',auth,(req,res)=>{
+    res.render("secret")
  })
  app.post("/login",async(req,res)=>{
     try{
@@ -63,6 +58,9 @@ app.get('/', function(req, res) {
          console.log("token is " + token) ;
         if(isMatch){
             res.json({ mesaage: 'LOgin Successfull' });
+        }
+        else{
+            res.redirect("/") ;
         }
     }catch(e){
     console.log(e)
