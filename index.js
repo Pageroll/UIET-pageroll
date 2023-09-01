@@ -22,7 +22,8 @@ const UsernameRegister = require("./models/username.js")
 
 app.use(express.static(__dirname));
 
-
+var formidable = require("express-formidable");
+app.use(formidable());
 
 
 app.set('view engine','ejs') ;
@@ -40,7 +41,7 @@ app.get('/', function(req, res) {
       })
     
   });
-
+  var startFrom = 0 ;
  app.get('/register',(req,res)=>{
     res.render('res.ejs')
  })
@@ -66,7 +67,25 @@ app.get('/', function(req, res) {
     console.log(e)
     }
  })
+ app.get("/scrolling",(req,res)=>{
+    res.render("scrolling.ejs") ;
+ })
+app.post("/scrolling/data",async(req,res)=>{
+    
+    try{
+    const  page = req.query.page ; 
+    var limit  = 10; 
+    var startFrom = parseInt(req.fields.startFrom);
+    console.log(startFrom) ;
+    var users = await UsernameRegister.find({}).sort({ "id": -1 }).skip(startFrom).limit(limit);
 
+// send the response back as JSON
+res.json(users);
+   }catch(e){
+    console.log(e) ;
+   }
+   
+})
  app.post('/register',async(req,res)=>{
    try{ 
     let data= new UsernameRegister({ 

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+    <table id="data"></table>
+    
+    <script>
+         var startFrom =0;
+        function getData(){
+           
+            xhr = new XMLHttpRequest() ;
+            xhr.open('POST','/scrolling/data',true) ; 
+            xhr.onreadystatechange = function(){
+               if(this.readyState==4){ 
+                    if(this.status == 200){
+                        var data = JSON.parse(this.responseText);
+                var html = ""
+                console.log(data) ;
+                for (var a = 0; a < data.length; a++) {
+                    html += "<tr>";
+                        html += "<td>" + data[a]._id + "</td>";
+                        html += "<td>" + data[a].name + "</td>";
+                        html += "<td>" + data[a].password + "</td>";
+                    html += "</tr>";
+                
+          
+                // Appending the data below old data in <tbody> tag
+                
+                
+                    }
+                    for (var a = 0; a < data.length; a++) {
+                   html+=`
+                   <br> <br>  
+                   <div class="card">
+        <div class="top">
+            <div class="userDetails">
+                <div class="profile_img">
+                    <img src="bg111.png" class="cover">
+                </div>
+                <h3>${data[a].name}<br><span>Chandigarh, India</span></h3>
+            </div>
+            
+            <div>
+                <img src="/dot.png" class="dot">
+            </div> 
+        </div>
+        <div class="imgBx">
+            <img src="./bg11.png" class="cover">
+        </div>
+        <div class="actionBtns">
+            <div class="left">
+                <img src="heart.png" class="heart" onclick="likeButton()">
+                <img src="comment.png">
+                <img src="share.png">
+            </div>
+            <div class="right">
+                <img src="bookmark.png">
+            </div>
+        </div>
+        <h4 class="likes">68 likes</h4>
+        <h4 class="message"><b>${data[a].password}</b> <span>#FullStack</span><span>#CoFounder</span><span>#PAGEROll</span></h4>
+        <h4 class="comments">View all 245 comments</h4>
+        <div class="addComments">
+            <div class="userImg">
+                <img src="bg111.png" class="cover">
+            </div>
+            <input type="text" class="text" placeholder="Add a comment...">
+        </div>
+        <h5 class="postTime">4 hours ago</h5>
+    </div>
+                 <br>   <br>  
+                   `
+          
+                // Appending the data below old data in <tbody> tag
+                
+                
+                    }
+                    document.getElementById("data").innerHTML += html;
+ 
+                // number of records you want to show per page
+                var limit = 10;
+          
+                // Incrementing the offset so yo
+                startFrom = startFrom + limit;
+                } 
+            }
+            }
+            var formData = new FormData();
+    formData.append("startFrom", startFrom);
+ 
+    // Actually sending the request
+    xhr.send(formData);
+        }
+        getData();
+        let currentPage = 1;
+let totalPages = 5;
+
+window.addEventListener('scroll', function() {
+  // Check if the user has reached the bottom of the page
+  if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+    // Check if there are more pages to load
+    if (currentPage < totalPages) {
+      // Fetch the data
+     getData() ;
+      currentPage++
+    }
+  }
+});
+    </script>
+</body>
+</html>
