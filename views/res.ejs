@@ -25,13 +25,13 @@
 
         const http = new XMLHttpRequest()
         http.open('POST', '/register')
-        http.setRequestHeader('Content-type', 'application/json')
-        http.send(JSON.stringify(params)) // Make sure to stringify
+        http.setRequestHeader('Content-type','application/json')
+         // Make sure to stringify
         http.onload = function() {
             // Do whatever with response
             document.getElementById("response").innerHTML ="reached"
         }
-    
+        http.send(JSON.stringify(params))
     }
    
     </script>

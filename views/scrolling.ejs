@@ -12,7 +12,7 @@
     <script>
          var startFrom =0;
         function getData(){
-           
+          
             xhr = new XMLHttpRequest() ;
             xhr.open('POST','/scrolling/data',true) ; 
             xhr.onreadystatechange = function(){
@@ -50,7 +50,7 @@
             </div> 
         </div>
         <div class="imgBx">
-            <img src="./bg11.png" class="cover">
+            <img src="./uploads/back.png" class="cover">
         </div>
         <div class="actionBtns">
             <div class="left">
@@ -90,11 +90,10 @@
                 } 
             }
             }
-            var formData = new FormData();
-    formData.append("startFrom", startFrom);
+      
  
     // Actually sending the request
-    xhr.send(formData);
+    xhr.send(JSON.stringify(startFrom));
         }
         getData();
         let currentPage = 1;
