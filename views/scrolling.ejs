@@ -15,18 +15,14 @@
           
             xhr = new XMLHttpRequest() ;
             xhr.open('POST','/scrolling/data',true) ; 
-            xhr.onreadystatechange = function(){
+            xhr.onreadystatechange = function(){  // calling function to display data on front end when status code changes
                if(this.readyState==4){ 
                     if(this.status == 200){
-                        var data = JSON.parse(this.responseText);
-                var html = ""
-                console.log(data) ;
+                        var data = JSON.parse(this.responseText);  //response of post request comtains user data
+                var html = ""  
+                console.log(data) ; // checking data for any error ## to be removed after finalization
                 for (var a = 0; a < data.length; a++) {
-                    html += "<tr>";
-                        html += "<td>" + data[a]._id + "</td>";
-                        html += "<td>" + data[a].name + "</td>";
-                        html += "<td>" + data[a].password + "</td>";
-                    html += "</tr>";
+                
                 
           
                 // Appending the data below old data in <tbody> tag
@@ -86,22 +82,21 @@
                 var limit = 10;
           
                 // Incrementing the offset so yo
-                startFrom = startFrom + limit;
-                } 
+                startFrom = startFrom + limit;  // start from is variable by which we can we give starting pointer to data to be fetched
+                }                               // limit is no . of data to be fetched starting from "startFrom"
             }
             }
       
  
     // Actually sending the request
-    xhr.send(JSON.stringify(startFrom));
+    xhr.send(JSON.stringify(startFrom));  // sends post requests with no. of user data to be fetched
         }
-        getData();
-        let currentPage = 1;
-let totalPages = 5;
+        getData();  // calling function to load data for first time
+
 
 window.addEventListener('scroll', function() {
   // Check if the user has reached the bottom of the page
-  if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+  if (window.innerHeight + window.scrollY >= document.body.offsetHeight/1.1) {
     // Check if there are more pages to load
     if (currentPage < totalPages) {
       // Fetch the data
